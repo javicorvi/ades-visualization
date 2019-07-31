@@ -1,0 +1,176 @@
+<div class="w3-bar w3-black">
+    <button (click)="goBack()">Home</button>
+</div>
+<div *ngIf="document">
+  <label>
+      {{document.name}}
+  </label>
+  <div [innerHTML]="data"></div>
+  <div #documentText>
+    <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-html="true" title="<em>Tooltip</em> <u>with</u> <b>HTML</b>">
+      Tooltip with HTML
+    </button>
+  </div>
+  <div class="ex3">
+  <table class="w3-table-all w3-card-4 overflow-y">
+            <thead>
+                <tr>
+                  <th></th>
+                  <th>Finding Id</th>
+                  <th>Finding</th>
+                  <th>Specimen </th>
+                  <th>Manifestation of Finding</th>
+                  <th>Sex</th>
+                  <th>Study Domain</th>
+                  <th>Study TestCD</th>
+                  <th>Risk Level</th>
+                  <th>Route of Administration</th>
+                  <th>Dose Quantity</th>
+                  <th>Dose Frequency</th>
+                  <th>Dose Duration</th>
+                  <th>treatment-related</th>
+                  <th>no-treatment-related</th>
+                  <th></th>
+                  <th></th>
+                </tr>
+              </thead>
+            <tr *ngFor="let finding of document.findings" (click)="findingSelected(finding);">
+              <td><input name="selectFinding" type="radio"></td>
+              <td>{{finding.findingId}}</td>
+              <td>{{finding.findings[0].text}}</td>
+              <td>
+                <select>
+                  <option>None</option>
+                  <option *ngFor="let e of finding.specimens" >{{e.text}}</option>
+                </select>
+              </td>
+              <td>
+                <select>
+                  <option>None</option>
+                  <option *ngFor="let e of finding.manifestations_finding" >{{e.text}}</option>
+                </select>
+              </td>
+              <td>
+                <select>
+                  <option>None</option>
+                  <option *ngFor="let e of finding.sexs" >{{e.text}}</option>
+                </select>
+              </td>
+              <td>
+                <select>
+                  <option>None</option>
+                  <option *ngFor="let e of finding.study_domains" >{{e.text}}</option>
+                </select>
+              </td>
+              <td>
+                <select>
+                  <option>None</option>
+                  <option *ngFor="let e of finding.study_testcds" >{{e.text}}</option>
+                </select>
+              </td>
+              <td>
+                <select>
+                  <option>None</option>
+                  <option *ngFor="let e of finding.risk_levels" >{{e.text}}</option>
+                </select>
+              </td>
+              <td>
+                <select>
+                  <option>None</option>
+                  <option *ngFor="let e of finding.routes_of_administration" >{{e.text}}</option>
+                 </select>
+              </td>
+              <td>
+                <select>
+                  <option>None</option>
+                  <option *ngFor="let e of finding.dose_quantitys" >{{e.text}}</option>
+                </select>
+              </td>
+              <td>
+                <select>
+                  <option>None</option>
+                  <option *ngFor="let e of finding.dose_frequencys" >{{e.text}}</option>
+                </select>
+              </td>
+              <td>
+                <select>
+                  <option>None</option>
+                  <option *ngFor="let e of finding.dose_durations" >{{e.text}}</option>
+                </select>
+              </td>
+              <td>
+                <select>
+                  <option>None</option>
+                  <option *ngFor="let e of finding.treatment_related_triggers" >{{e.text}}</option>
+                </select>
+              </td>
+              <td>
+                <select>
+                  <option>None</option>
+                  <option *ngFor="let e of finding.no_treatment_related_triggers" >{{e.text}}</option>
+                </select>
+              </td>
+              <td>
+                  <a href="#" class="button">Okey</a>
+              </td>
+              <td>
+                  <a href="#" class="button">Delete</a>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <!-- <table mat-table [dataSource]="document.findings" class="mat-elevation-z8"> -->
+
+            <!--- Note that these columns can be defined in any order.
+                  The actual rendered columns are set as a property on the row definition" -->
+
+            <!-- Position Column -->
+
+            <!-- <td *ngFor="let fi of element.finding_fields" mat-cell *matCellDef="let element"> {{fi}} </td> -->
+
+            <!-- <ng-container matColumnDef="Finding Id">
+              <th mat-header-cell *matHeaderCellDef> Finding Id </th>
+              <td mat-cell *matCellDef="let element"> {{element.findingId}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Finding">
+                <th mat-header-cell *matHeaderCellDef> Finding </th>
+                <td mat-cell *matCellDef="let element"> {{element.findings[0].text || 'Nothing' }} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Specimen">
+              <th mat-header-cell *matHeaderCellDef> Specimen </th>
+              <td mat-cell *matCellDef="let element">
+                <mat-select id="mySelectId">
+                    <mat-option>None</mat-option>
+                    <mat-option *ngFor="let specimen of element.specimens" [value]="specimen.text">
+                      {{specimen.text}}
+                    </mat-option>
+                </mat-select>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table> -->
+
+      <!-- <ul class="documents">
+        <li *ngFor="let finding of document.findings" (click)="onSelectFinding(finding)">
+            {{finding.findingId}}
+            <ul class="finding">
+                <li *ngFor="let annotation of finding.finding_fields">
+                    {{annotation.text}}
+                    {{annotation.startOffset}}
+                    {{annotation.endOffset}}
+                    <ul class="annotation">
+                        <li *ngFor="let feature of annotation.features">
+                            {{feature.name}}
+                            {{feature.value}}
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+    </ul> -->
+
+</div>

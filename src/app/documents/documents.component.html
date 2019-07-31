@@ -1,0 +1,12 @@
+<div class="w3-container">
+  <h2>Toxicology Reports</h2>
+  <ul class="w3-ul w3-border">
+    <li *ngFor="let document of documents">
+      <a routerLink="/find/{{document.documentId}}">
+        {{document.name}}
+      </a>
+    </li>
+  </ul>
+</div>
+
+
