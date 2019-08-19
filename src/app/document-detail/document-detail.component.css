@@ -1,41 +1,64 @@
+table.findings td, th {
+  border: 1px solid #dddddd;
+  text-align: center;
+  padding: 8px;
+}
+
+table.findings tr:hover {
+   color: blue;
+}
 /*Clases for Labels*/
 .class_a{
-  background-color: red;
-  color: #fff
+  /* background-color: red; */
+  /* color: #fff */
+  font-weight: bold;
+  border-bottom: 5px solid red;
 }
 .class_b{
-  background-color: blue;
-  color: #fff
+  font-weight: bold;
+  border-bottom: 5px solid blue;
 }
 .class_c{
-  background-color: green;
-  color: #fff
+  font-weight: bold;
+  border-bottom: 5px solid green;
 }
 .class_d{
-  background-color: yellow;
-  color: black
+  font-weight: bold;
+  border-bottom: 5px solid   yellow;
 }
 .class_f{
   background-color: fuchsia;
   color: #fff
 }
 .class_g{
-  background-color: rgb(42, 165, 69);
-  color: #fff
+  font-weight: bold;
+  border-bottom: 5px solid  rgb(42, 165, 69);
 }
 .class_h{
-  background-color: rgb(60, 180, 170);
-  color: #fff
+  font-weight: bold;
+  border-bottom: 5px solid rgb(60, 180, 170);
 }
 .class_i{
-  background-color: rgb(226, 96, 73);
-  color: #fff
+  font-weight: bold;
+  border-bottom: 5px solid   rgb(226, 96, 73);
 }
 .class_j{
-  background-color: brown;
-  color: #fff
+  font-weight: bold;
+  border-bottom: 5px solid   rgb(226, 96, 73);
+}
+.class_j{
+  font-weight: bold;
+  border-bottom: 5px solid  rgb(226, 96, 73);
+}
+.class_l{
+  font-weight: bold;
+  border-bottom: 5px solid   black;
 }
 .class_z{
+  background-color: black;
+  color: #fff
+}
+.relevant_text{
   background-color: black;
   color: #fff
 }
@@ -128,3 +151,68 @@ button:disabled {
 .select-items div:hover, .same-as-selected {
   background-color: rgba(0, 0, 0, 0.1);
 }
+
+.sourcesClass{
+  /*border-left:4px solid dodgerblue;*/
+  padding: 5px;
+  font-size: 12px;
+
+}
+
+.annotationTypeClass{
+  font-size: 12px;
+  text-align: center;
+}
+
+.cdiscClass{
+  border-left:4px solid rgb(13, 9, 238);
+  padding: 5px;
+  background-color: rgb(164, 179, 248);
+}
+.etoxClass{
+  /* background-color: tomato; */
+  border-left:4px solid #FF0000;
+  padding: 5px;
+  background-color: rgb(255, 158, 158);
+}
+.umlsClass{
+  /* background-color:violet; */
+  border-left:4px solid rgb(247, 0, 255);
+  padding: 5px;
+  background-color: rgb(243, 195, 255);
+}
+
+.dnormClass{
+  /* background-color:violet; */
+  border-left:4px solid rgb(1, 173, 102);
+  padding: 5px;
+  background-color: rgb(125, 173, 153);
+}
+
+.limtoxClass{
+  /* background-color:violet; */
+  border-left:4px solid rgb(240, 157, 5);
+  padding: 5px;
+  background-color: rgb(240, 207, 146)
+}
+
+.myontologyClass{
+  /* background-color:violet; */
+  border-left:4px solid rgb(255, 238, 0);
+  padding: 5px;
+  background-color: rgb(247, 244, 210)
+}
+
+.tooltip_finding{
+  display:none;
+  position:absolute;
+  background-color: whitesmoke;
+  color:black;
+  /* border-radius: 20px; */
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 10px;
+}
+
+
+

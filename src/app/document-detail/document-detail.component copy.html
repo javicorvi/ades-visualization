@@ -6,10 +6,9 @@
       {{document.name}}
   </label>
   <div [innerHTML]="data"></div>
-
-  <div class="w3-container">
-  <table class="w3-table-all w3-card-4 overflow-y w3-centered findings">
-      <thead>
+  <div class="ex3">
+  <table class="w3-table-all w3-card-4 overflow-y">
+            <thead>
                 <tr>
                   <th></th>
                   <th>Finding</th>
@@ -18,114 +17,92 @@
                   <th>Sex</th>
                   <th>Study Domain</th>
                   <th>Study TestCD</th>
-                  <th>Group</th>
-                  <th>is-treatment-related</th>
                   <th>Risk Level</th>
                   <th>Route of Administration</th>
                   <th>Dose Quantity</th>
                   <th>Dose Frequency</th>
                   <th>Dose Duration</th>
-
+                  <th>treatment-related</th>
+                  <th>no-treatment-related</th>
                   <th></th>
                   <th></th>
                 </tr>
               </thead>
             <tr *ngFor="let finding of document.findings" (click)="findingSelected(finding);">
               <td>{{finding.findingId}}</td>
-              <td>{{finding.finding.text}}</td>
+              <td>{{finding.findings[0].text}}</td>
               <td>
-                <!-- <select>
+                <select>
                   <option>None</option>
                   <option *ngFor="let e of finding.specimens" >{{e.text}}</option>
-                </select> -->
-                {{finding.specimen? finding.specimen.value : ""}}
+                </select>
               </td>
               <td>
-                <!-- <select>
+                <select>
                   <option>None</option>
                   <option *ngFor="let e of finding.manifestations_finding" >{{e.text}}</option>
-                </select> -->
-                 {{finding.manifestation_finding? finding.manifestation_finding.value : ""}}
+                </select>
               </td>
               <td>
-                <!-- <select>
+                <select>
                   <option>None</option>
                   <option *ngFor="let e of finding.sexs" >{{e.text}}</option>
-                </select> -->
-                 <!-- {{finding.sex.text}} -->
-                 {{finding.sex? finding.sex.value : ""}}
+                </select>
               </td>
               <td>
-                <!-- <select>
+                <select>
                   <option>None</option>
                   <option *ngFor="let e of finding.study_domains" >{{e.text}}</option>
-                </select> -->
-                 <!-- {{finding.study_domain.text}} -->
-                 {{finding.study_domain? finding.study_domain.value : ""}}
+                </select>
               </td>
               <td>
-                <!-- <select>
+                <select>
                   <option>None</option>
                   <option *ngFor="let e of finding.study_testcds" >{{e.text}}</option>
-                </select> -->
-                {{finding.study_testcd? finding.study_testcd.value : ""}}
+                </select>
               </td>
               <td>
-                <!-- <select>
-                  <option>None</option>
-                  <option *ngFor="let e of finding.study_domains" >{{e.text}}</option>
-                </select> -->
-                 <!-- {{finding.study_domain.text}} -->
-                 {{finding.group? finding.group.value : ""}}
-              </td>
-              <td>
-                <!-- <select>
-                  <option>None</option>
-                  <option *ngFor="let e of finding.no_treatment_related_triggers" >{{e.text}}</option>
-                </select> -->
-                 <!-- {{finding.no_treatment_related_trigger.text}} -->
-                 {{finding.is_treatment_related? finding.is_treatment_related.value : ""}}
-              </td>
-              <td>
-                <!-- <select>
+                <select>
                   <option>None</option>
                   <option *ngFor="let e of finding.risk_levels" >{{e.text}}</option>
-                </select> -->
-                {{finding.risk_level? finding.risk_level.value : ""}}
+                </select>
               </td>
               <td>
-                <!-- <select>
+                <select>
                   <option>None</option>
                   <option *ngFor="let e of finding.routes_of_administration" >{{e.text}}</option>
-                 </select> -->
-                  <!-- {{finding.route_of_administration.text}} -->
-                  {{finding.route_of_administration? finding.route_of_administration.value : ""}}
+                 </select>
               </td>
               <td>
-                <!-- <select>
+                <select>
                   <option>None</option>
                   <option *ngFor="let e of finding.dose_quantitys" >{{e.text}}</option>
-                </select> -->
-                 <!-- {{finding.dose_quantity.text}} -->
-                 {{finding.dose_quantity? finding.dose_quantity.value : ""}}
+                </select>
               </td>
               <td>
-                <!-- <select>
+                <select>
                   <option>None</option>
                   <option *ngFor="let e of finding.dose_frequencys" >{{e.text}}</option>
-                </select> -->
-                 <!-- {{finding.dose_frequency.text}} -->
-                 {{finding.dose_frequency? finding.dose_frequency.value : ""}}
+                </select>
               </td>
               <td>
-                <!-- <select>
+                <select>
                   <option>None</option>
                   <option *ngFor="let e of finding.dose_durations" >{{e.text}}</option>
-                </select> -->
-                 <!-- {{finding.dose_duration? finding.dose_duration.text : ""}} -->
-                 {{finding.dose_duration? finding.dose_duration.value : ""}}
+                </select>
               </td>
-
+              <td>
+                <select>
+                  <option>None</option>
+                  <option *ngFor="let e of finding.treatment_related_triggers" >{{e.text}}</option>
+                </select>
+              </td>
+              <td>
+                <select>
+                  <option>None</option>
+                  <option *ngFor="let e of finding.no_treatment_related_triggers" >{{e.text}}</option>
+                </select>
+              </td>
               <td>
                   <a href="#" class="button">Okey</a>
               </td>

@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { DocumentService } from '../document.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-
+import {MatTooltipModule} from '@angular/material/tooltip';
 @Component({
   encapsulation: ViewEncapsulation.None,
   selector: 'app-document-detail',
