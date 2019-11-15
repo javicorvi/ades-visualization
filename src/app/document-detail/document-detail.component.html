@@ -1,7 +1,7 @@
 <link rel="stylesheet" type="text/css" href="http://localhost:8001/style-vis.css"/>
-<script type="text/javascript" src="http://localhost:8001/client/lib/head.load.min.js"></script>
+<!-- <script type="text/javascript" src="http://localhost:8001/client/lib/head.load.min.js"></script>
 
-<script type="text/javascript">
+ <script type="text/javascript">
   var bratLocation = 'http://localhost:8001/';
 
   head.js(
@@ -30,7 +30,7 @@
   head.ready(function() {
       Util.embed(
           // id of the div element where brat should embed the visualisations
-          'data3',
+          'pipo',
           // object containing collection data
           collData,
           // object containing document data
@@ -137,18 +137,20 @@
   ];
 
 
-  </script>
+  </script> -->
 
 
 <div>
   <button (click)="goBack()">Home</button>
 </div>
+<div id="data1"></div>
+<div id="data2"></div>
 <div *ngIf="document" class="documentName">
   <p>
       Manual Curation report: {{document.name}}
   </p>
   <div [innerHTML]="data"></div>
-  <div id="data3"></div>
+
   <div class="w3-container">
   <table class="w3-table-all w3-card-4 overflow-y w3-centered findings">
       <thead>

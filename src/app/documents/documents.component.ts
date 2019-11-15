@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild} from '@angular/core';
 import { Document } from '../document';
 import { DocumentService } from '../document.service';
-import {MaterialModule} from '../material.module';
 
 @Component({
   selector: 'app-documents',
