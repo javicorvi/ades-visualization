@@ -13,10 +13,8 @@ export class Finding {
   study_domain: Annotation;
   is_treatment_related: Annotation;
   risk_level: Annotation;
-  route_of_administration: Annotation;
-  dose_quantity: Annotation;
-  dose_frequency: Annotation;
-  dose_duration: Annotation;
+  dose: Annotation;
+
 
   // findings: Annotation[];
   // sexs: Annotation[];

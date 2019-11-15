@@ -4,13 +4,20 @@ table.findings td, th {
   padding: 8px;
 }
 
+.row_selectd{
+  color: #FF0000;
+}
+
+.documentName{
+  color: black;
+  size: 100%;
+}
 table.findings tr:hover {
    color: blue;
+   cursor: pointer;
 }
 /*Clases for Labels*/
 .class_a{
-  /* background-color: red; */
-  /* color: #fff */
   font-weight: bold;
   border-bottom: 5px solid red;
 }
@@ -25,6 +32,10 @@ table.findings tr:hover {
 .class_d{
   font-weight: bold;
   border-bottom: 5px solid   yellow;
+}
+.class_e{
+  font-weight: bold;
+  border-bottom: 5px solid red;
 }
 .class_f{
   background-color: fuchsia;
@@ -59,8 +70,8 @@ table.findings tr:hover {
   color: #fff
 }
 .relevant_text{
-  background-color: black;
-  color: #fff
+  background-color: rgb(217, 224, 245);
+  color:black;
 }
 /* DocumentDetailComponent's private CSS styles */
 label {
