@@ -21,7 +21,7 @@
     "@angular/platform-browser": "~8.1.2",
     "@angular/platform-browser-dynamic": "~8.1.2",
     "@angular/router": "~8.1.2",
-    "angular": "^1.7.8",
+    "angular": "^1.7.9",
     "angular-in-memory-web-api": "^0.8.0",
     "angular-popper": "^2.0.1",
     "brat-frontend-editor": "^0.3.42",
