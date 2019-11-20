@@ -53,6 +53,15 @@ export class DocumentService {
       );
     }
 
+    /** GET Snipped of finding selected */
+    findingSelected2(id: number, finding: Finding): Observable<string> {
+      const url = `${this.documentsUrl}/${id}/finding2/${finding.findingId}`;
+      return this.http.get(url , {responseType: 'text'}).pipe(
+         tap(_ => this.log(`fetched finding id=${finding.findingId}`)),
+         catchError(this.handleError<string>(`getFinding id=${finding.findingId}`))
+      );
+    }
+
   /** PUT: update the document on the server */
   updateDocument(document: Document): Observable<any> {
     return this.http.put(this.documentsUrl, document, httpOptions).pipe(
