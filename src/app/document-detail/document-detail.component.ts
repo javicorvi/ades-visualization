@@ -9,13 +9,32 @@ import * as $ from 'jquery';
 declare var head: any;
 declare var Util: any;
 
+var displaySpanComment = function (evt, target, spanId, spanType, mods, spanText, commentText, commentType, normalizations) {
+	  var left  = evt.clientX  + "px";
+    var top  = evt.clientY  + "px";
+	  var div = document.getElementById('commentpopup');
+	  div.style.left = left;
+    div.style.top = top;
+    // $("#commentpopup").toggle();
+    div.innerHTML=spanType + ':' + spanText;
+    div.style.display='block';
+}
+
+var hideComment = function (evt, target, spanId, spanType, mods, spanText, commentText, commentType, normalizations) {
+	var div = document.getElementById('commentpopup');
+	div.style.display = 'none';
+}
+
+
+
 declare var jQuery: any;
 @Component({
   encapsulation: ViewEncapsulation.None,
   selector: 'app-document-detail',
   templateUrl: './document-detail.component.html',
-  styleUrls: ['./document-detail.component.css']
+  styleUrls: ['./document-detail.component.css', '../brat-v1.3_Crunchy_Frog/style-vis.css']
 })
+
 
 export class DocumentDetailComponent implements OnInit {
 
@@ -33,7 +52,8 @@ export class DocumentDetailComponent implements OnInit {
 
   // tslint:disable-next-line: max-line-length
   constructor(private route: ActivatedRoute, private documentService: DocumentService, private location: Location, private sanitizer: DomSanitizer) {
-    const bratLocation = 'http://localhost:8001'
+    const bratLocation = 'http://localhost:8001';
+    //const bratLocation = 'http://localhost:8001';
     head.js(
       // External libraries
       bratLocation + '/client/lib/jquery.min.js',
@@ -61,25 +81,25 @@ export class DocumentDetailComponent implements OnInit {
     DocumentDetailComponent.collData = {
       entity_types: [
         {
-              type   : 'Finding',
+              type   : 'FINDING',
               /* The labels are used when displaying the annotion, in this case
                   we also provide a short-hand "Per" for cases where
                   abbreviations are preferable */
               labels : ['FINDING', 'FIND'],
               // Blue is a nice colour for a person?
-              bgColor: '#5F9EA0',
+              bgColor: '#eb656c',
               // Use a slightly darker version of the bgColor for the border
               borderColor: 'darken'
       }, {
-              type   : 'Study_testcd', labels : ['STUDY_TESTCD', 'STC'], bgColor: '#8A2BE2', borderColor: 'darken'
+              type   : 'STUDY_TESTCD', labels : ['STUDY_TESTCD', 'STC'], bgColor: '#e8b6f0', borderColor: 'darken'
           }, {
-              type   : 'Specimen', labels : ['SPECIMEN', 'SPE'], bgColor: '#FF7F50', borderColor: 'darken'
+              type   : 'SPECIMEN', labels : ['SPECIMEN', 'SPE'], bgColor: '#79aef7', borderColor: 'darken'
           } , {
-              type   : 'Sex', labels : ['SEX', 'SEX'], bgColor: '#556B2F', borderColor: 'darken'
+              type   : 'SEX', labels : ['SEX', 'SEX'], bgColor: '#f5f05f', borderColor: 'darken'
           } , {
-              type   : 'Manifestation', labels : ['MANIFESTATION_FINDING', 'MAN'], bgColor: '#FF1493', borderColor: 'darken'
+              type   : 'MANIFESTATION_FINDING', labels : ['MANIFESTATION_FINDING', 'MAN'], bgColor: '#f0a141', borderColor: 'darken'
           } , {
-            type   : 'Group', labels : ['GROUP', 'GR'], bgColor: '#FF1493', borderColor: 'darken'
+              type   : 'GROUP', labels : ['GROUP', 'GR'], bgColor: '#edfcb8', borderColor: 'darken'
           }
     ]
   };
@@ -105,7 +125,7 @@ export class DocumentDetailComponent implements OnInit {
         args     : [
             //
             {role: 'Entity', targets: ['FINDING', 'STUDY_TESTCD'] },
-            {role: 'Subentity',  targets: ['SPECIMEN', 'SEX', 'MANIFESTATION_FINDING'] }
+            {role: 'Subentity',  targets: ['SPECIMEN', 'SEX', 'MANIFESTATION_FINDING', 'GROUP'] }
         ]
     } ];
 
@@ -126,27 +146,44 @@ export class DocumentDetailComponent implements OnInit {
   getDocument(): void {
     const id = +this.route.snapshot.paramMap.get('id');
     this.documentService.getDocument(id)
-      .subscribe(document => this.document = document);
+      .subscribe(document => {
+        this.document = document;
+        //var j = JSON.parse('{ text:' + document.text + '}');
+        var j = { text: document.text };
+        //head.ready( function() {
+        //  Util.embed('data1' , DocumentDetailComponent.collData, j, DocumentDetailComponent.webFontURLs);
+       // });
+      });
   }
 
   findingSelected(finding): void {
-
-    this.documentService.findingSelected(this.document.documentId, finding)
-      .subscribe(text => this.data = this.sanitizer.bypassSecurityTrustHtml(text));
-
+    //this.documentService.findingSelected(this.document.documentId, finding)
+    //  .subscribe(text => this.data = this.sanitizer.bypassSecurityTrustHtml(text));
     this.documentService.findingSelected2(this.document.documentId, finding)
       .subscribe(text => {
         this.docData = text;
-        console.log(this.docData);
-        console.log(JSON.parse(this.docData));
+        // console.log(this.docData);
+        // console.log(JSON.parse(this.docData));
         document.getElementById('data1').innerHTML = '';
         document.getElementById('data1').className = '';
         var j = JSON.parse(this.docData);
-        Util.embed('data1' , DocumentDetailComponent.collData, j, DocumentDetailComponent.webFontURLs);
+        //head.ready( function() {
+          const dispatcher = Util.embed('data1' , DocumentDetailComponent.collData, j, DocumentDetailComponent.webFontURLs);
+          dispatcher.on('displaySpanComment', displaySpanComment);
+          dispatcher.on('hideComment', hideComment);
+       // });
       });
   }
   goBack(): void {
     this.location.back();
+  }
+  clear(): void {
+    var j = { text: this.document.text };
+   // head.ready( function() {
+      document.getElementById('data1').innerHTML = '';
+      document.getElementById('data1').className = '';
+      Util.embed('data1' , DocumentDetailComponent.collData, j, DocumentDetailComponent.webFontURLs);
+   // });
   }
 
 }
