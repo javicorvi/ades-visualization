@@ -1,10 +1,13 @@
-import { Component, OnInit, Input, ViewChild, ElementRef, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, ViewEncapsulation, AfterViewInit, AfterContentInit } from '@angular/core';
 import { Document } from '../document';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { DocumentService } from '../document.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+
+
 import * as $ from 'jquery';
+import { Finding } from '../finding';
 //brat
 declare var head: any;
 declare var Util: any;
@@ -16,7 +19,7 @@ var displaySpanComment = function (evt, target, spanId, spanType, mods, spanText
 	  div.style.left = left;
     div.style.top = top;
     // $("#commentpopup").toggle();
-    div.innerHTML=spanType + ':' + spanText;
+    div.innerHTML=spanId + ' - ' + spanType + ' - ' + spanText;
     div.style.display='block';
 }
 
@@ -25,7 +28,9 @@ var hideComment = function (evt, target, spanId, spanType, mods, spanText, comme
 	div.style.display = 'none';
 }
 
-
+function delay(ms: number) {
+  return new Promise( resolve => setTimeout(resolve, ms) );
+}
 
 declare var jQuery: any;
 @Component({
@@ -37,6 +42,7 @@ declare var jQuery: any;
 
 
 export class DocumentDetailComponent implements OnInit {
+
 
   static collData: any;
 
@@ -50,10 +56,64 @@ export class DocumentDetailComponent implements OnInit {
 
   docData: string;
 
+  tableData: any[] = [];
+
+
+
+  columnNames: any[] = [
+    {formatter: 'responsiveCollapse', headerSort: false},
+    {width: 5, align: 'center', cellClick: function(e, cell){alert('This Finding is manually curated as OKEY !')},
+    formatter: function(cell, formatterParams, onRendered){
+      return '<i class="fa fa-check" style="color:green" aria-hidden="true"> </i>';
+     }},
+    {width: 5, align: 'center', cellClick: function(e, cell) {alert('This Finding is manually curated as a wrong detection !');  } ,
+    formatter: function(cell, formatterParams, onRendered) {
+      return '<i class="fa fa-times" style="color:red" aria-hidden="true"> </i>';
+     }},
+    { title: 'Id', field: 'id' },
+    { title: 'Finding', field: 'finding', headerSort: false , headerFilter: true, editor: 'input', editable: function(e, cell) {
+        return false;
+    }
+
+    },
+    { title: 'Study TestCD', field: 'study_testcd' , headerSort: false , headerFilter: true , editor: true},
+    { title: 'Manifestation of Finding', field: 'manifestation_finding' , headerSort: false, headerFilter: true,  editor: 'select', editorParams:[
+      'Increase',
+      'Decrease',
+      'Present'
+    ]},
+    { title: 'Study Domain', field: 'study_domain' , headerSort: false, headerFilter: true,  editor: 'select', editorParams:[
+      'Body Weight',
+      'Body Weight Gain',
+      'Cardiovascular Domain',
+      'Clinical Domain',
+      'Death Diagnosis',
+      'ECG Domain',
+      'Food and Water Comsumption',
+      'Laboratory Domain',
+      'Macroscopic Domain',
+      'Microscopic Domain',
+      'Organ Measurement',
+      'Respiratory Domain',
+      'Tumor Findings',
+      'Vital Signs'
+    ]},
+    { title: 'Specimen', field: 'specimen' , headerSort: false , headerFilter: true, editor: 'select', editorParams: [
+      'Liver',
+      'Heart'
+    ]},
+    { title: 'Sex', field: 'sex' , headerSort: false , headerFilter: true},
+    { title: 'Dose', field: 'dose' , headerSort: false , headerFilter: true},
+    { title: 'Group', field: 'group' , headerSort: false , headerFilter: true},
+    { title: 'Is Treatement Related', field: 'is_trf' , headerSort: false , headerFilter: true}
+  ];
+
+ // table: FindingTabulatorComponent;
+
   // tslint:disable-next-line: max-line-length
   constructor(private route: ActivatedRoute, private documentService: DocumentService, private location: Location, private sanitizer: DomSanitizer) {
     const bratLocation = 'http://localhost:8001';
-    //const bratLocation = 'http://localhost:8001';
+    // const bratLocation = 'http://localhost:8001';
     head.js(
       // External libraries
       bratLocation + '/client/lib/jquery.min.js',
@@ -100,6 +160,12 @@ export class DocumentDetailComponent implements OnInit {
               type   : 'MANIFESTATION_FINDING', labels : ['MANIFESTATION_FINDING', 'MAN'], bgColor: '#f0a141', borderColor: 'darken'
           } , {
               type   : 'GROUP', labels : ['GROUP', 'GR'], bgColor: '#edfcb8', borderColor: 'darken'
+          }, {
+              type   : 'OBSERVATION_QUALIFICATION', labels : ['OBSERVATION_QUALIFICATION', 'QUA'], bgColor: '#edfcb8', borderColor: 'darken'
+          }, {
+              type   : 'STUDY_DAY_FINDING', labels : ['STUDY_DAY_FINDING', 'SDAY'], bgColor: '#edfcb8', borderColor: 'darken'
+          }, {
+              type   : 'STATISTICAL_SIGNIFICANCE', labels : ['STATISTICAL_SIGNIFICANCE', 'STATS'], bgColor: '#edfcb8', borderColor: 'darken'
           }
     ]
   };
@@ -110,14 +176,14 @@ export class DocumentDetailComponent implements OnInit {
           /* brat supports multi-valued attributes, but in our case we will only
               use a single value and add a glyph to the visualisation to indicate
               that the entity carries that attribute */
-          values: { 'Notorious': { 'glyph': '★' } }
+          values: { Notorious: { glyph: '★' } }
       } ];
 
 
     DocumentDetailComponent.collData['relation_types'] = [ {
         type     : 'Relation',
         labels   : ['R', 'R'],
-        // dashArray allows you to adjust the style of the relation arc
+        // dashArray allows yoFindingTabulatorComponent the relation arc
         dashArray: '3,3',
         color    : 'purple',
         /* A relation takes two arguments, both are named and can be constrained
@@ -125,7 +191,8 @@ export class DocumentDetailComponent implements OnInit {
         args     : [
             //
             {role: 'Entity', targets: ['FINDING', 'STUDY_TESTCD'] },
-            {role: 'Subentity',  targets: ['SPECIMEN', 'SEX', 'MANIFESTATION_FINDING', 'GROUP'] }
+            // tslint:disable-next-line: max-line-length
+            {role: 'Subentity',  targets: ['SPECIMEN', 'SEX', 'MANIFESTATION_FINDING', 'GROUP', 'OBSERVATION_QUALIFICATION', 'STUDY_DAY_FINDING', 'STATISTICAL_SIGNIFICANCE'] }
         ]
     } ];
 
@@ -148,30 +215,59 @@ export class DocumentDetailComponent implements OnInit {
     this.documentService.getDocument(id)
       .subscribe(document => {
         this.document = document;
+        var data = [];
+        document.findings.forEach(find => {
+          data.push({
+                  id : find.findingId,
+                  finding: find.finding != null ? find.finding.value : '',
+                  study_testcd: find.study_testcd != null ? find.study_testcd.value : '',
+                  manifestation_finding: find.manifestation_finding != null ? find.manifestation_finding.value : '',
+                  study_domain: find.study_domain != null ? find.study_domain.value : '',
+                  specimen: find.specimen != null ? find.specimen.value : '',
+                  sex: find.sex != null ? find.sex.value : '',
+                  dose: find.dose != null ? find.dose.value : '',
+                  group: find.group != null ? find.group.value : '',
+                  is_trf: find.is_treatment_related != null ? find.is_treatment_related.value : ''
+          });
+        });
+        //alert(data);
+        //alert(JSON.stringify(data));
+
+        this.tableData = data;
+        //this.clear();
+        //alert(JSON.stringify(document.findings));
         //var j = JSON.parse('{ text:' + document.text + '}');
-        var j = { text: document.text };
-        //head.ready( function() {
-        //  Util.embed('data1' , DocumentDetailComponent.collData, j, DocumentDetailComponent.webFontURLs);
-       // });
+        // var j = { text: document.text };
+        // head.ready( function() {
+        //   const dispatcher = Util.embed('data1' , DocumentDetailComponent.collData, j, DocumentDetailComponent.webFontURLs);
+        //   dispatcher.on('displaySpanComment', displaySpanComment);
+        //   dispatcher.on('hideComment', hideComment);
+        // });
       });
   }
 
+  rowClick(dataRow: any): void {
+    const finding = new Finding();
+    finding.findingId = dataRow.id;
+    this.findingSelected(finding);
+  }
+
+
   findingSelected(finding): void {
-    //this.documentService.findingSelected(this.document.documentId, finding)
-    //  .subscribe(text => this.data = this.sanitizer.bypassSecurityTrustHtml(text));
     this.documentService.findingSelected2(this.document.documentId, finding)
       .subscribe(text => {
         this.docData = text;
-        // console.log(this.docData);
+        console.log(this.docData);
         // console.log(JSON.parse(this.docData));
+        document.getElementById('data2').className = 'collapse show';
         document.getElementById('data1').innerHTML = '';
         document.getElementById('data1').className = '';
         var j = JSON.parse(this.docData);
-        //head.ready( function() {
+        head.ready( function() {
           const dispatcher = Util.embed('data1' , DocumentDetailComponent.collData, j, DocumentDetailComponent.webFontURLs);
           dispatcher.on('displaySpanComment', displaySpanComment);
           dispatcher.on('hideComment', hideComment);
-       // });
+        });
       });
   }
   goBack(): void {
@@ -179,11 +275,11 @@ export class DocumentDetailComponent implements OnInit {
   }
   clear(): void {
     var j = { text: this.document.text };
-   // head.ready( function() {
+    head.ready( function() {
       document.getElementById('data1').innerHTML = '';
       document.getElementById('data1').className = '';
       Util.embed('data1' , DocumentDetailComponent.collData, j, DocumentDetailComponent.webFontURLs);
-   // });
+    });
   }
-
 }
+

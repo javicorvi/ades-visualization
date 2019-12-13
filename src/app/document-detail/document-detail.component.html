@@ -1,118 +1,34 @@
-<div>
-  <button (click)="goBack()">Home</button>
-</div>
-<div>
-  <button (click)="clear()">Clear</button>
-</div>
-<div *ngIf="document" class="documentName">
-  <p>
-      Manual Curation report: {{document.name}}
-  </p>
-  <!--<div [innerHTML]="data"></div>-->
-  <div id="commentpopup"></div>
-  <div id="data1"></div>
-
-  <div class="w3-container">
-  <table class="w3-table-all w3-card-4 overflow-y w3-centered findings">
-      <thead>
-                <tr>
-                  <th></th>
-                  <th>Finding</th>
-                  <th>Study TestCD</th>
-                  <th>Manifestation of Finding</th>
-                  <th>Study Domain</th>
-                  <th>Specimen </th>
-                  <th>Sex</th>
-                  <th>Dose</th>
-                  <th>Group</th>
-                  <th>Risk Level</th>
-                  <th>is-treatment-related</th>
-                  <th></th>
-                  <th></th>
-                </tr>
-              </thead>
-            <tr *ngFor="let finding of document.findings" (click)="row_selectd = findingSelected(finding);" [class.myClass]="row_selectd">
-              <td>{{finding.findingId}}</td>
-              <td>
-                  {{finding.finding? finding.finding.value : ""}}
-              </td>
-              <td>
-                <!-- <select>
-                  <option>None</option>
-                  <option *ngFor="let e of finding.study_testcds" >{{e.text}}</option>
-                </select> -->
-                {{finding.study_testcd? finding.study_testcd.value : ""}}
-              </td>
-              <td>
-                <!-- <select>
-                  <option>None</option>
-                  <option *ngFor="let e of finding.manifestations_finding" >{{e.text}}</option>
-                </select> -->
-                 {{finding.manifestation_finding? finding.manifestation_finding.value : ""}}
-              </td>
-              <td>
-                <!-- <select>
-                  <option>None</option>
-                  <option *ngFor="let e of finding.study_domains" >{{e.text}}</option>
-                </select> -->
-                 <!-- {{finding.study_domain.text}} -->
-                 {{finding.study_domain? finding.study_domain.value : ""}}
-              </td>
-              <td>
-                <!-- <select>
-                  <option>None</option>
-                  <option *ngFor="let e of finding.specimens" >{{e.text}}</option>
-                </select> -->
-                {{finding.specimen? finding.specimen.value : ""}}
-              </td>
-
-              <td>
-                <!-- <select>
-                  <option>None</option>
-                  <option *ngFor="let e of finding.sexs" >{{e.text}}</option>
-                </select> -->
-                 <!-- {{finding.sex.text}} -->
-                 {{finding.sex? finding.sex.value : ""}}
-              </td>
-              <td>
-                <!-- <select>
-                  <option>None</option>
-                  <option *ngFor="let e of finding.dose_quantitys" >{{e.text}}</option>
-                </select> -->
-                 <!-- {{finding.dose_quantity.text}} -->
-                 {{finding.dose? finding.dose.value : ""}}
-              </td>
-              <td>
-                <!-- <select>
-                  <option>None</option>
-                  <option *ngFor="let e of finding.study_domains" >{{e.text}}</option>
-                </select> -->
-                 <!-- {{finding.study_domain.text}} -->
-                 {{finding.group? finding.group.value : ""}}
-              </td>
-              <td>
-                <!-- <select>
-                  <option>None</option>
-                  <option *ngFor="let e of finding.risk_levels" >{{e.text}}</option>
-                </select> -->
-                {{finding.risk_level? finding.risk_level.value : ""}}
-              </td>
-              <td>
-                <!-- <select>
-                  <option>None</option>
-                  <option *ngFor="let e of finding.no_treatment_related_triggers" >{{e.text}}</option>
-                </select> -->
-                 <!-- {{finding.no_treatment_related_trigger.text}} -->
-                 {{finding.is_treatment_related? finding.is_treatment_related.value : ""}}
-              </td>
-
-             <td>
-                  <a href="#" class="button">Okey</a>
-              </td>
-              <td>
-                  <a href="#" class="button">Delete</a>
-              </td>
-            </tr>
-          </table>
+<div class="w3-container">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" routerLink="">Home</a>
+        <a class="fa fa-angle-left" title='Previous Document' routerLink="" style="color:white;padding: 10px 30px;text-decoration:none;" aria-hidden="true" tooltip='Previous Document'></a>
+        <a class="fa fa-angle-right" title='Next Document' routerLink="" style="color:white;padding: 10px 30px;text-decoration:none;" aria-hidden="true" tooltip='Next Document'></a>
+      </nav>
+    <div *ngIf="document" class="documentName">
+    <div class="card">
+        <div class="card-header">
+            <h4>{{document.name}}</h4>
         </div>
+    </div>
+
+    <!-- <div id="commentpopup"></div> -->
+
+    <div class="w3-container">
+
+        <a href="#data2" style="text-decoration:none;" data-toggle="collapse">
+          <i class="fa fa-angle-down"  style="color:black;padding: 10px 30px; font-size: 3rem;"></i>
+        </a>
+        <a [routerLink]="" (click)="clear()" style="text-decoration:none;">
+          <i class="fa fa-eraser"  style="color:black;padding: 10px 30px; font-size: 2rem;"></i>
+        </a>
+        <div id="data2" class="w3-container">
+          <div id="data1" data-ng-init="clear()">
+
+          </div>
+      </div>
+
+  </div>
+  <div>
+    <app-finding-tabulator [columnNames]=columnNames [tableData]=tableData (rowClickEvent)="rowClick($event)">></app-finding-tabulator>
+  </div>
 </div>

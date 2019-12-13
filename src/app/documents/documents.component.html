@@ -1,6 +1,13 @@
 <div class="w3-container">
-  <h2>Toxicology Reports</h2>
-  <ul class="w3-ul w3-border">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand">Toxicology Reports</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  </nav>
+
+
+ <ul class="w3-ul w3-border">
     <li *ngFor="let document of documents">
       <a routerLink="/find/{{document.documentId}}">
         {{document.name}}

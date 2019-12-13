@@ -7,12 +7,12 @@ import { MenuComponent } from './menu/menu.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { DocumentsComponent } from './documents/documents.component';
-import {MaterialModule} from './material.module';
+
 import { FormsModule } from '@angular/forms';
 import { DocumentDetailComponent } from './document-detail/document-detail.component';
 import { MessagesComponent } from './messages/messages.component';
-import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { InMemoryDataService } from './in-memory-data.service';
+
+import { FindingTabulatorComponent } from './finding-tabulator/finding-tabulator.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -21,21 +21,15 @@ import { InMemoryDataService } from './in-memory-data.service';
     FooterComponent,
     DocumentsComponent,
     DocumentDetailComponent,
-    MessagesComponent
+    MessagesComponent,
+    FindingTabulatorComponent
 
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    MaterialModule,
     FormsModule,
-    HttpClientModule//,
-    // The HttpClientInMemoryWebApiModule module intercepts HTTP requests
-    // and returns simulated server responses.
-    // Remove it when a real server is ready to receive requests.
-    //HttpClientInMemoryWebApiModule.forRoot(
-      //InMemoryDataService, { dataEncapsulation: false }
-    //)
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent],
