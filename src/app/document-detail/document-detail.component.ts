@@ -62,6 +62,7 @@ export class DocumentDetailComponent implements OnInit {
 
   columnNames: any[] = [
     {formatter: 'responsiveCollapse', headerSort: false},
+
     {width: 5, align: 'center', cellClick: function(e, cell){alert('This Finding is manually curated as OKEY !')},
     formatter: function(cell, formatterParams, onRendered){
       return '<i class="fa fa-check" style="color:green" aria-hidden="true"> </i>';
@@ -70,6 +71,12 @@ export class DocumentDetailComponent implements OnInit {
     formatter: function(cell, formatterParams, onRendered) {
       return '<i class="fa fa-times" style="color:red" aria-hidden="true"> </i>';
      }},
+
+     {width: 5, align: 'center', cellClick: function(e, cell){alert('This will enable the edition'); cell.formatter='<i class="fa fa-edit" style="color:red" aria-hidden="true"> </i>'},
+      formatter: function(cell, formatterParams, onRendered){
+      return '<i class="fa fa-edit" style="color:blue" aria-hidden="true"> </i>';
+     }},
+
     { title: 'Id', field: 'id' },
     { title: 'Finding', field: 'finding', headerSort: false , headerFilter: true, editor: 'input', editable: function(e, cell) {
         return false;
@@ -99,13 +106,29 @@ export class DocumentDetailComponent implements OnInit {
       'Vital Signs'
     ]},
     { title: 'Specimen', field: 'specimen' , headerSort: false , headerFilter: true, editor: 'select', editorParams: [
-      'Liver',
-      'Heart'
+      'LIVER',
+      'HEART',
+      'PAROTID_GLAND',
+      'SERUM',
+      'BONE',
+      'STOMACH',
+      'KIDNEY',
+      'ORAL_CAVITY',
+      'SKIN',
+      'NOSE',
+      'WHOLE_ANIMAL'
     ]},
-    { title: 'Sex', field: 'sex' , headerSort: false , headerFilter: true},
+    { title: 'Sex', field: 'sex' , headerSort: false , headerFilter: true, editor: 'select', editorParams:[
+      'F',
+      'M'
+    ]},
     { title: 'Dose', field: 'dose' , headerSort: false , headerFilter: true},
     { title: 'Group', field: 'group' , headerSort: false , headerFilter: true},
-    { title: 'Is Treatement Related', field: 'is_trf' , headerSort: false , headerFilter: true}
+    { title: 'Is Treatement Related', field: 'is_trf' , headerSort: false , headerFilter: true, editor: 'select', editorParams: [
+      'U(Uncertain)',
+      'Y(Treatment-related))',
+      'N(No Treatment-related))'
+    ]}
   ];
 
  // table: FindingTabulatorComponent;
