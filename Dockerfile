@@ -1,18 +1,16 @@
-FROM node:13.6.0-alpine3.10 as node
+### STAGE 1: Build ###
+FROM node:10.18.1-alpine as build
 WORKDIR /usr/src/app
-
-COPY package*.json ./
-
-ENV PATH="node_modules/.bin:$PATH"
-
-RUN apk update
-
-RUN apk add git python cmake make gcc g++
-
+COPY package.json ./
+RUN apk add git
 RUN npm install
+COPY . .
+RUN npm run build
 
-COPY . /usr/src/app
+### STAGE 2: Run ###
+FROM nginx:1.17.1-alpine
+COPY --from=build /usr/src/app/dist/my-app /usr/share/nginx/html
 
-EXPOSE 4200
 
-CMD ng serve --host 0.0.0.0
+#FROM nginx:1.17.1-alpine
+#COPY /dist/my-app /usr/share/nginx/html

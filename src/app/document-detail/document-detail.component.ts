@@ -73,7 +73,7 @@ export class DocumentDetailComponent implements OnInit {
      }},
 
      {width: 5, align: 'center', cellClick: function(e, cell){alert('This will enable the edition'); cell.formatter='<i class="fa fa-edit" style="color:red" aria-hidden="true"> </i>'},
-      formatter: function(cell, formatterParams, onRendered){
+      formatter: function(cell, formatteexport, onRendered){
       return '<i class="fa fa-edit" style="color:blue" aria-hidden="true"> </i>';
      }},
 
